@@ -1,13 +1,14 @@
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 var dao = require('./data/dao.js');
-var constants = require('./config.json')
+var constants = require('./config.json');
+var imgCards = require('./imgCards.json');
 
 var deckOfCards = ['SA','S2','S3','S4','S5','S6','S7','S8','S9','ST','SJ','SQ','SK','DA','D2','D3','D4','D5','D6','D7','D8','D9','DT','DJ','DQ','DK','CA','C2','C3','C4','C5','C6','C7','C8','C9','CT','CJ','CQ','CK','HA','H2','H3','H4','H5','H6','H7','H8','H9','HT','HJ','HQ','HK'];
 
-var lvl1 = 0.01
-var lvl2 = 0.1
-var lvl3 = 0.25
-var lvl4 = 0.5
+var lvl1 = 0.01;
+var lvl2 = 0.1;
+var lvl3 = 0.25;
+var lvl4 = 0.5;
 
 var playersPropArray = [];
 var playersCardsArray = [];
@@ -29,10 +30,11 @@ var secondPlace = [];
 var thirdPlace = [];
 var jackpotWinners = [];
 
-var	valuesArray = [];
+var valuesArray = [];
 var suitsArray = [];
 
 var playersArray = [];
+var espectatorsArray = [];
 
 function readPost(permlink){
 	//Put all to zero
@@ -63,8 +65,8 @@ function readPost(permlink){
 	
 	//Select the comment for number of shuffles and the cut of the deck
 	steem.api.getContentReplies(author, permlink, function(err, result) {
-        if (err) {
-            console.log('Failure! ' + err);
+		if (err) {
+			console.log('Failure! ' + err);
 		} else {
 			var usedPlayers = [];
 			for (var i = 0;i < result.length;i++){
@@ -88,8 +90,8 @@ function readPost(permlink){
 	
 	//Get all voters
 	steem.api.getContent(author, permlink, function(err, result) {
-        if (err) {
-            console.log('Failure! ' + err);
+        	if (err) {
+            		console.log('Failure! ' + err);
 		} else {
 			totalCardsPlayers = 0;
 			
@@ -123,6 +125,8 @@ function readPost(permlink){
 					playersPropArray.push({name:activesVotesArray[i].voter, value:voteSBD, nCard:numCards});
 					
 					totalCardsPlayers += numCards;
+				} else {
+					espectatorsArray.push(activesVotesArray[i].voter);
 				}
 			}
 			
@@ -132,7 +136,6 @@ function readPost(permlink){
 		}
 
 	});
-	makeGameLogic(permlink)
 }
 
 function makeGameLogic(permlink){
@@ -602,8 +605,9 @@ function updatePost(permlink){
 	
 	var content = '';
 	
+	content += '<center>'
 	content += '<h1>Vote and you can win SBD and even more with our progressive jackpot!</h1>';
-	content += 'Game Image';
+	content += '![frontPost.png](https://steemitimages.com/DQmTkQXYsL8cU4SA3tq8caEcsyPWXnQAQKfvK7bj8wFs7aR/frontPost.png)';
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>Game Round</h1>';
@@ -624,7 +628,8 @@ function updatePost(permlink){
 		content += '</td>';
 		content += '<td>';
 		player.hand.forEach(function(card){
-			content += '<img src="cards/'+card+'.png" alt='+card+'>';
+			var numCard = decks[0].indexOf("card");
+			content += '![' + card + '.png](' + imgCards[numCard] + ')';
 		});
 		content += '</td>';
 		content += '<td>';
@@ -661,9 +666,24 @@ function updatePost(permlink){
 		content += '</td>';
 		content += '</tr>';
 	});
+	espectatorsArray.forEach(function(espec, index) {
+		content += '<tr>';
+		content += '<td>';
+		content += espec;
+		content += '</td>';
+		content += '<td>';
+		content += 'Under $0.005';
+		content += '</td>';
+		content += '<td>';
+		content += '</td>';
+		content += '<td>';
+		content += '</td>';
+		content += '</tr>';
+	});
 	content += '</table>';
 	content += '<br/>';
 	content += 'Log of the Deck:';
+	content += '</center>'
 	content += '<br/>';
 	decks.forEach(function(deck, index) {
 		content += (index+1) + ': ';
@@ -680,6 +700,7 @@ function updatePost(permlink){
 		});
 		content += '<br/>';
 	});
+	content += '<center>'
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>How to Join</h1>';
@@ -780,6 +801,7 @@ function updatePost(permlink){
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>Good Luck!</h1>';
+	content += '</center>'
 	
 	var ret = {permlink:permlinkGame,decks:decks,numCut:numCut,namCut:nameCut,numShuff:numShuffles,namShuff:nameShuffles,selCard:selectedCard,players:playersArray};
 	
