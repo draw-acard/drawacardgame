@@ -611,97 +611,101 @@ function updatePost(permlink){
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>Game Round</h1>';
-	content += 'Number of Cards: ' + numDeck; 
-	content += '<br/>';
-	content += 'Amount of Shuffles: ' + numShuffles + ' ' + nameShuffles; 
-	content += '<br/>';
-	content += 'Cutting Number: ' + numCut + ' ' + nameCut; 
-	content += '<br/><table><tr><td>';
-	content += 'Chosen Card: </td><td>' + '<img src="cards/'+selectedCard+'.png" alt='+selectedCard+'></td></tr></table>';
-	content += ' <br/> <table> <tr> <th>Name</th><th>Cards</th><th>Place</th><th>Jackpot</th> </tr> ';
-	var tempPlayers = playersArray.slice();
-	tempPlayers.sort(function(a, b){return a.winner - b.winner});
-	tempPlayers.forEach(function(player, index) {
-		content += '<tr>';
-		content += '<td>';
-		content += player.name;
-		content += '</td>';
-		content += '<td>';
-		player.hand.forEach(function(card){
-			var numCard = decks[0].indexOf("card");
-			content += '![' + card + '.png](' + imgCards[numCard] + ')';
-		});
-		content += '</td>';
-		content += '<td>';
-		if (player.winner == 1){
-			content += 'First Place!!';
-		} else if (player.winner == 2){
-			content += 'Second Place!!';
-		} else if (player.winner == 3){
-			content += 'Third Place!!';
-		}
-		content += '</td>';
-		content += '<td>';
-		if (player.valueJack == 1) { 
-			content += 'Pair 10%'
-		} else if (player.valueJack == 2) { 
-			content += 'Two pairs 20%'
-		} else if (player.valueJack == 3) { 
-			content += 'Three of a Kind 30%'
-		} else if (player.valueJack == 4) { 
-			content += 'Straight 40%'
-		} else if (player.valueJack == 5) { 
-			content += 'Flush 50%'
-		} else if (player.valueJack == 6) { 
-			content += 'Four of a Kind 60%'
-		} else if (player.valueJack == 7) { 
-			content += 'Full House 70%'
-		} else if (player.valueJack == 8) { 
-			content += 'Straight Flush 80%'
-		} else if (player.valueJack == 9) { 
-			content += 'Five of a Kind 90%'
-		} else if (player.valueJack == 10) { 
-			content += 'Royal Flush 100%'
-		}
-		content += '</td>';
-		content += '</tr>';
-	});
-	espectatorsArray.forEach(function(espec, index) {
-		content += '<tr>';
-		content += '<td>';
-		content += espec;
-		content += '</td>';
-		content += '<td>';
-		content += 'Under $0.005';
-		content += '</td>';
-		content += '<td>';
-		content += '</td>';
-		content += '<td>';
-		content += '</td>';
-		content += '</tr>';
-	});
-	content += '</table>';
-	content += '<br/>';
-	content += 'Log of the Deck:';
-	content += '</center>'
-	content += '<br/>';
-	decks.forEach(function(deck, index) {
-		content += (index+1) + ': ';
-		if (index == 1){
-			content += 'Start Shuffling';
-		} else if (index == decks.length - 2){
-			content += 'End Shuffling';
-		} else if (index == decks.length - 1){
-			content += 'Cut the Deck';
-		}
+	if (playersPropArray.length > 2){
+		content += 'Number of Cards: ' + numDeck; 
 		content += '<br/>';
-		deck.forEach(function(card) {
-			content += card + ',';
+		content += 'Amount of Shuffles: ' + numShuffles + ' ' + nameShuffles; 
+		content += '<br/>';
+		content += 'Cutting Number: ' + numCut + ' ' + nameCut; 
+		content += '<br/><table><tr><td>';
+		content += 'Chosen Card: </td><td>' + '<img src="cards/'+selectedCard+'.png" alt='+selectedCard+'></td></tr></table>';
+		content += ' <br/> <table> <tr> <th>Name</th><th>Cards</th><th>Place</th><th>Jackpot</th> </tr> ';
+		var tempPlayers = playersArray.slice();
+		tempPlayers.sort(function(a, b){return a.winner - b.winner});
+		tempPlayers.forEach(function(player, index) {
+			content += '<tr>';
+			content += '<td>';
+			content += player.name;
+			content += '</td>';
+			content += '<td>';
+			player.hand.forEach(function(card){
+				var numCard = decks[0].indexOf("card");
+				content += '![' + card + '.png](' + imgCards[numCard] + ')';
+			});
+			content += '</td>';
+			content += '<td>';
+			if (player.winner == 1){
+				content += 'First Place!!';
+			} else if (player.winner == 2){
+				content += 'Second Place!!';
+			} else if (player.winner == 3){
+				content += 'Third Place!!';
+			}
+			content += '</td>';
+			content += '<td>';
+			if (player.valueJack == 1) { 
+				content += 'Pair 10%'
+			} else if (player.valueJack == 2) { 
+				content += 'Two pairs 20%'
+			} else if (player.valueJack == 3) { 
+				content += 'Three of a Kind 30%'
+			} else if (player.valueJack == 4) { 
+				content += 'Straight 40%'
+			} else if (player.valueJack == 5) { 
+				content += 'Flush 50%'
+			} else if (player.valueJack == 6) { 
+				content += 'Four of a Kind 60%'
+			} else if (player.valueJack == 7) { 
+				content += 'Full House 70%'
+			} else if (player.valueJack == 8) { 
+				content += 'Straight Flush 80%'
+			} else if (player.valueJack == 9) { 
+				content += 'Five of a Kind 90%'
+			} else if (player.valueJack == 10) { 
+				content += 'Royal Flush 100%'
+			}
+			content += '</td>';
+			content += '</tr>';
+		});
+		espectatorsArray.forEach(function(espec, index) {
+			content += '<tr>';
+			content += '<td>';
+			content += espec;
+			content += '</td>';
+			content += '<td>';
+			content += 'Under $0.005';
+			content += '</td>';
+			content += '<td>';
+			content += '</td>';
+			content += '<td>';
+			content += '</td>';
+			content += '</tr>';
+		});
+		content += '</table>';
+		content += '<br/>';
+		content += 'Log of the Deck:';
+		content += '</center>'
+		content += '<br/>';
+		decks.forEach(function(deck, index) {
+			content += (index+1) + ': ';
+			if (index == 1){
+				content += 'Start Shuffling';
+			} else if (index == decks.length - 2){
+				content += 'End Shuffling';
+			} else if (index == decks.length - 1){
+				content += 'Cut the Deck';
+			}
+			content += '<br/>';
+			deck.forEach(function(card) {
+				content += card + ',';
+			});
+			content += '<br/>';
 		});
 		content += '<br/>';
-	});
-	content += '<center>'
-	content += '<br/>';
+		content += '<center>'
+	} else {
+		content += '<h2>Minimum 3 players required. The SBD for this round will be added to the Progressive Jackpot.</h2>';
+	}
 	content += '<br/>';
 	content += '<h1>How to Join</h1>';
 	content += '-If you want to join to the game just vote this post.';
