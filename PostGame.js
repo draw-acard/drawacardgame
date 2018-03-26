@@ -1,12 +1,13 @@
 steem.api.setOptions({ url: 'https://api.steemit.com' });
 var dao = require('./data/dao.js');
-var constants = require('./config.json')
+var constants = require('./config.json');
 
 function postGame(permlink){
 	var content = '';
 	
+	content += '<center>'
 	content += '<h1>Vote and you can win SBD and even more with our progressive jackpot!</h1>';
-	content += 'Game Image';
+	content += '![frontPost.png](https://steemitimages.com/DQmTkQXYsL8cU4SA3tq8caEcsyPWXnQAQKfvK7bj8wFs7aR/frontPost.png)';
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>[RESERVED] Game Round</h1>';
@@ -115,6 +116,7 @@ function postGame(permlink){
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>Good Luck!</h1>';
+	content += '</center>'
 	
 	steem.broadcast.comment(
         constants.posting, // posting wif
