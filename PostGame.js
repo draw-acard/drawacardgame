@@ -130,8 +130,8 @@ function postGame(permlink){
           if (err)
             console.log('Failure! ' + err);
           else{
-			//Save in DataBase
-			dao.savePermlink(permlink);
+	    //Save in DataBase
+	    dao.savePermlink(permlink);
             console.log('Success'); 
           }
         });
