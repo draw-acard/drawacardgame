@@ -111,7 +111,7 @@ function postGame(permlink){
 	content += '<br/>';
 	content += '<br/>';
 	content += '<h1>Source Code and Website</h1>';
-	content += '[GitHub]()';
+	content += '[GitHub](https://github.com/draw-acard/drawacardgame)';
 	content += '<br/>Website (Coming Soon)';
 	content += '<br/>';
 	content += '<br/>';
