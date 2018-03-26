@@ -598,7 +598,7 @@ function evaluateHand(hand){
 }
 //Poker hand evaluator ------END------
 
-function updatePost(){
+function updatePost(permlink){
 	
 	var content = '';
 	
